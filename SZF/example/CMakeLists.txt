@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.12)
-project (HDF5SZ_EX)
+project (HDF5SZF_EX)
 
 set (dyn_examples
     h5ex_d_sz
