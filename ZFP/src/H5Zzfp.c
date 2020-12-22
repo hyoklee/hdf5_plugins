@@ -1,58 +1,20 @@
+#include <stdlib.h>
+#include <string.h>
 
-/*
-This code was based heavily on one of the HDF5 library's internal
-filter, H5Zszip.c. The intention in so doing wasn't so much to
-plagerize HDF5 developers as it was to produce a code that, if
-The HDF Group ever decided to in the future, could be easily
-integrated with the existing HDF5 library code base.
 
-The logic here for 'Z' and 'B' macros as well as there use within
-the code to call ZFP library methods is due to this filter being
-part of the Silo library but also supported as a stand-alone
-package. In Silo, the ZFP library is embedded inside a C struct
-to avoid pollution of the global namespace as well as collision
-with any other implementation of ZFP a Silo executable may be
-linked with. Calls to ZFP lib methods are preface with 'Z '
-and calls to bitstream methods with 'B ' as in
+/* The logic here for 'Z' and 'B' macros as well as there use within
+   the code to call ZFP library methods is due to this filter being
+   part of the Silo library but also supported as a stand-alone
+   package. In Silo, the ZFP library is embedded inside a C struct
+   to avoid pollution of the global namespace as well as collision
+   with any other implementation of ZFP a Silo executable may be
+   linked with. Calls to ZFP lib methods are preface with 'Z ' 
+   and calls to bitstream methods with 'B ' as in
 
-    Z zfp_stream_open(...);
-    B stream_open(...);
+       Z zfp_stream_open(...);
+       B sream_open(...);
+
 */
-
-#include "zfp_config.h"
-#include <stdio.h>
-#ifdef HAVE_SYS_TYPES_H
-# include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_STAT_H
-# include <sys/stat.h>
-#endif
-#ifdef STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# ifdef HAVE_STDLIB_H
-#  include <stdlib.h>
-# endif
-#endif
-#ifdef HAVE_STRING_H
-# if !defined STDC_HEADERS && defined HAVE_MEMORY_H
-#  include <memory.h>
-# endif
-# include <string.h>
-#endif
-#ifdef HAVE_STRINGS_H
-# include <strings.h>
-#endif
-#ifdef HAVE_INTTYPES_H
-# include <inttypes.h>
-#endif
-#ifdef HAVE_STDINT_H
-# include <stdint.h>
-#endif
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif
 
 #ifdef Z
 #undef Z
@@ -74,7 +36,7 @@ and calls to bitstream methods with 'B ' as in
 #include "zfp.h"
 #include "bitstream.h"
 #define Z
-#define B
+#define B 
 #endif /* ] AS_SILO_BUILTIN */
 
 #include "H5Zzfp_plugin.h"
@@ -102,12 +64,10 @@ and calls to bitstream methods with 'B ' as in
 do                                                    \
 {                                                     \
     H5Epush(H5E_DEFAULT,__FILE__,_funcname_,__LINE__, \
-        H5E_ERR_CLS,MAJ,MIN,MSG);                     \
+        H5Z_ZFP_ERRCLASS,MAJ,MIN,MSG);                \
     retval = RET;                                     \
     goto done;                                        \
 } while(0)
-
-static int h5z_zfp_was_registered = 0;
 
 static size_t H5Z_filter_zfp   (unsigned int flags, size_t cd_nelmts, const unsigned int cd_values[],
                                 size_t nbytes, size_t *buf_size, void **buf);
@@ -117,48 +77,38 @@ static herr_t H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t space_id);
 const H5Z_class2_t H5Z_ZFP[1] = {{
 
     H5Z_CLASS_T_VERS,       /* H5Z_class_t version          */
-    (H5Z_filter_t)(H5Z_FILTER_ZFP),         /* Filter id number             */
-#ifdef FILTER_DECODE_ONLY
-    0,                   /* encoder_present flag (false is not available) */
-#else
-    1,                   /* encoder_present flag (set to true) */
-#endif
+    H5Z_FILTER_ZFP,         /* Filter id number             */
+    1,                      /* encoder_present flag         */
     1,                      /* decoder_present flag         */
     "H5Z-ZFP"               /* Filter name for debugging    */
     "-" H5Z_FILTER_ZFP_VERSION_STR
     " (ZFP-" ZFP_VERSION_STR ") "
     "github.com/LLNL/H5Z-ZFP",
-    (H5Z_can_apply_func_t)(H5Z_zfp_can_apply),      /* The "can apply" callback     */
-    (H5Z_set_local_func_t)(H5Z_zfp_set_local),      /* The "set local" callback     */
-    (H5Z_func_t)(H5Z_filter_zfp),                   /* The actual filter function   */
+    H5Z_zfp_can_apply,      /* The "can apply" callback     */
+    H5Z_zfp_set_local,      /* The "set local" callback     */
+    H5Z_filter_zfp,         /* The actual filter function   */
 
 }};
 
 #ifdef H5Z_ZFP_AS_LIB
-int H5Z_zfp_initialize(void)
-{
-    if (H5Zfilter_avail(H5Z_FILTER_ZFP))
-        return 1;
-    if (H5Zregister(H5Z_ZFP)<0)
-        return -1;
-    h5z_zfp_was_registered = 1;
-    return 1;
-}
+int         H5Z_zfp_initialize(void) { herr_t ret = H5Zregister(H5Z_ZFP); return ret<0?-1:1;}
 #else
 H5PL_type_t H5PLget_plugin_type(void) {return H5PL_TYPE_FILTER;}
 const void *H5PLget_plugin_info(void) {return H5Z_ZFP;}
 #endif
 
+static hid_t H5Z_ZFP_ERRCLASS = -1;
 #ifndef H5Z_ZFP_AS_LIB
 static
 #endif
 int H5Z_zfp_finalize(void)
 {
-    herr_t ret2 = 0;
-    if (h5z_zfp_was_registered)
-        ret2 = H5Zunregister(H5Z_FILTER_ZFP);
-    h5z_zfp_was_registered = 0;
-    if (ret2 < 0) return -1;
+    herr_t ret1, ret2;
+    if (H5Z_ZFP_ERRCLASS != -1 && H5Z_ZFP_ERRCLASS != H5E_ERR_CLS_g)
+        ret1 = H5Eunregister_class(H5Z_ZFP_ERRCLASS);
+    H5Z_ZFP_ERRCLASS = -1;
+    ret2 = H5Zunregister(H5Z_FILTER_ZFP);
+    if (ret1 < 0 || ret2 < 0) return -1;
     return 1;
 }
 
@@ -167,11 +117,31 @@ static void H5Z_zfp_final(void)
     H5Z_zfp_finalize();
 }
 
+static void H5Z_zfp_init(void)
+{
+    /* Register the error class */
+    if (H5Z_ZFP_ERRCLASS == -1)
+    {
+        if (H5Eget_class_name(H5E_ERR_CLS_g,0,0) < 0)
+        {
+            H5Z_ZFP_ERRCLASS = H5Eregister_class("H5Z-ZFP", "ZFP-" ZFP_VERSION_STR,
+                                                 "H5Z-ZFP-" H5Z_FILTER_ZFP_VERSION_STR);
+#if !defined(H5Z_ZFP_AS_LIB) && !defined(NDEBUG)
+            /* helps to eliminate resource leak for memory analysis */
+            atexit(H5Z_zfp_final);
+#endif
+        }
+        else
+        {
+            H5Z_ZFP_ERRCLASS = H5E_ERR_CLS_g;
+        }
+    }
+}
+
 static htri_t
 H5Z_zfp_can_apply(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
-{
+{   
     static char const *_funcname_ = "H5Z_zfp_can_apply";
-    int const max_ndims = (ZFP_VERSION_NO <= 0x0053) ? 3 : 4;
     int ndims, ndims_used = 0;
     size_t i, dsize;
     htri_t retval = 0;
@@ -179,9 +149,11 @@ H5Z_zfp_can_apply(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
     H5T_class_t dclass;
     hid_t native_type_id;
 
+    H5Z_zfp_init();
+
     /* Disable the ZFP filter entirely if it looks like the ZFP library
        hasn't been compiled for 8-bit stream word size */
-    if ((int) B stream_word_bits != 8)
+    if (B (int) stream_word_bits != 8)
         H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_CANTINIT, -1,
             "ZFP lib not compiled with -DBIT_STREAM_WORD_TYPE=uint8");
 
@@ -217,14 +189,9 @@ H5Z_zfp_can_apply(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
         ndims_used++;
     }
 
-    if (ndims_used == 0 || ndims_used > max_ndims)
-#if ZFP_VERSION_NO < 0x0053
+    if (ndims_used == 0 || ndims_used > 3)
         H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0,
-            "chunk must have only 1...3 non-unity dimensions");
-#else
-        H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0,
-            "chunk must have only 1...4 non-unity dimensions");
-#endif
+            "chunk must have only 1-3 non-unity dimensions");
 
     /* if caller is doing "endian targetting", disallow that */
     native_type_id = H5Tget_native_type(type_id, H5T_DIR_ASCEND);
@@ -241,7 +208,7 @@ done:
 
 static herr_t
 H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
-{
+{   
     static char const *_funcname_ = "H5Z_zfp_set_local";
     int i, ndims, ndims_used = 0;
     size_t dsize, hdr_bits, hdr_bytes;
@@ -251,7 +218,7 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
     unsigned int hdr_cd_values[H5Z_ZFP_CD_NELMTS_MAX];
     unsigned int flags = 0;
     herr_t retval = 0;
-    hsize_t dims[H5S_MAX_RANK], dims_used[H5S_MAX_RANK];
+    hsize_t dims[H5S_MAX_RANK], dims_used[3];
     H5T_class_t dclass;
     zfp_type zt;
     zfp_field *dummy_field = 0;
@@ -259,6 +226,8 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
     zfp_stream *dummy_zstr = 0;
     int have_zfp_controls = 0;
     h5z_zfp_controls_t ctrls;
+
+    H5Z_zfp_init();
 
     if (0 > (dclass = H5Tget_class(type_id)))
         H5Z_ZFP_PUSH_AND_GOTO(H5E_ARGS, H5E_BADTYPE, -1, "not a datatype");
@@ -269,37 +238,26 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
     if (0 > (ndims = H5Sget_simple_extent_dims(chunk_space_id, dims, 0)))
         H5Z_ZFP_PUSH_AND_GOTO(H5E_ARGS, H5E_BADTYPE, -1, "not a data space");
 
-    /* setup zfp data type for meta header */
-    if (dclass == H5T_FLOAT)
-    {
-        if (dsize == sizeof(float))
-            zt = zfp_type_float;
-        else if (dsize == sizeof(double))
-            zt = zfp_type_double;
-        else
-            H5Z_ZFP_PUSH_AND_GOTO(H5E_ARGS, H5E_BADTYPE, -1, "invalid datatype size");
-    }
-    else if (dclass == H5T_INTEGER)
-    {
-        if (dsize == sizeof(int32))
-            zt = zfp_type_int32;
-        else if (dsize == sizeof(int64))
-            zt = zfp_type_int64;
-        else
-            H5Z_ZFP_PUSH_AND_GOTO(H5E_ARGS, H5E_BADTYPE, -1, "invalid datatype size");
-    }
-    else
-    {
-        H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADTYPE, 0,
-            "datatype class must be H5T_FLOAT or H5T_INTEGER");
-    }
-
-    /* computed used (e.g. non-unity) dimensions in chunk */
     for (i = 0; i < ndims; i++)
     {
         if (dims[i] <= 1) continue;
         dims_used[ndims_used] = dims[i];
         ndims_used++;
+    }
+
+    /* setup zfp data type for meta header */
+    if (dclass == H5T_FLOAT)
+    {
+        zt = (dsize == 4) ? zfp_type_float : zfp_type_double;
+    }
+    else if (dclass == H5T_INTEGER)
+    {
+        zt = (dsize == 4) ? zfp_type_int32 : zfp_type_int64;
+    }
+    else
+    {
+        H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADTYPE, 0,
+            "datatype class must be H5T_FLOAT or H5T_INTEGER");
     }
 
     /* set up dummy zfp field to compute meta header */
@@ -308,17 +266,8 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
         case 1: dummy_field = Z zfp_field_1d(0, zt, dims_used[0]); break;
         case 2: dummy_field = Z zfp_field_2d(0, zt, dims_used[1], dims_used[0]); break;
         case 3: dummy_field = Z zfp_field_3d(0, zt, dims_used[2], dims_used[1], dims_used[0]); break;
-#if ZFP_VERSION_NO >= 0x0054
-        case 4: dummy_field = Z zfp_field_4d(0, zt, dims_used[3], dims_used[2], dims_used[1], dims_used[0]); break;
-#endif
-        default:
-#if ZFP_VERSION_NO < 0x0053
-            H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0,
-                     "chunks may have only 1...3 non-unity dims");
-#else
-            H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0,
-                     "chunks may have only 1...4 non-unity dims");
-#endif
+        default: H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0,
+                     "requires chunks w/1,2 or 3 non-unity dims");
     }
     if (!dummy_field)
         H5Z_ZFP_PUSH_AND_GOTO(H5E_RESOURCE, H5E_NOSPACE, 0, "zfp_field_Xd() failed");
@@ -343,7 +292,7 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
             H5Pset_zfp_expert_cdata(ZFP_MIN_BITS, ZFP_MAX_BITS, ZFP_MAX_PREC, ZFP_MIN_EXP, mem_cd_nelmts, mem_cd_values);
         }
     }
-
+        
     /* Into hdr_cd_values, we encode ZFP library and H5Z-ZFP plugin version info at
        entry 0 and use remaining entries as a tiny buffer to write ZFP native header. */
     hdr_cd_values[0] = (unsigned int) ((ZFP_VERSION_NO<<16) | H5Z_FILTER_ZFP_VERSION_NO);
@@ -353,13 +302,13 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
     if (0 == (dummy_zstr = Z zfp_stream_open(dummy_bstr)))
         H5Z_ZFP_PUSH_AND_GOTO(H5E_RESOURCE, H5E_NOSPACE, 0, "zfp_stream_open() failed");
 
-    /* Set the ZFP stream mode from zfp_control properties or mem_cd_values[0] */
+    /* Set the ZFP stream basic mode from mem_cd_values[0] */
     if (have_zfp_controls)
     {
         switch (ctrls.mode)
         {
             case H5Z_ZFP_MODE_RATE:
-                Z zfp_stream_set_rate(dummy_zstr, ctrls.details.rate, zt, ndims_used, 0);
+                Z zfp_stream_set_rate(dummy_zstr, ctrls.details.rate, zt, ndims, 0);
                 break;
             case H5Z_ZFP_MODE_PRECISION:
 #if ZFP_VERSION_NO < 0x0051
@@ -380,11 +329,6 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
                     ctrls.details.expert.maxbits, ctrls.details.expert.maxprec,
                     ctrls.details.expert.minexp);
                 break;
-#if ZFP_VERSION_NO >= 0x0055
-            case H5Z_ZFP_MODE_REVERSIBLE:
-                Z zfp_stream_set_reversible(dummy_zstr);
-                break;
-#endif
             default:
                 H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0, "invalid ZFP mode");
         }
@@ -394,7 +338,7 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
         switch (mem_cd_values[0])
         {
             case H5Z_ZFP_MODE_RATE:
-                Z zfp_stream_set_rate(dummy_zstr, *((double*) &mem_cd_values[2]), zt, ndims_used, 0);
+                Z zfp_stream_set_rate(dummy_zstr, *((double*) &mem_cd_values[2]), zt, ndims, 0);
                 break;
             case H5Z_ZFP_MODE_PRECISION:
 #if ZFP_VERSION_NO < 0x0051
@@ -414,11 +358,6 @@ H5Z_zfp_set_local(hid_t dcpl_id, hid_t type_id, hid_t chunk_space_id)
                 Z zfp_stream_set_params(dummy_zstr, mem_cd_values[2], mem_cd_values[3],
                     mem_cd_values[4], (int) mem_cd_values[5]);
                 break;
-#if ZFP_VERSION_NO >= 0x0055
-            case H5Z_ZFP_MODE_REVERSIBLE:
-                Z zfp_stream_set_reversible(dummy_zstr);
-                break;
-#endif
             default:
                 H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0, "invalid ZFP mode");
         }
@@ -460,10 +399,10 @@ done:
 }
 
 static int
-get_zfp_info_from_cd_values(size_t cd_nelmts, unsigned int const *cd_values,
+get_zfp_info_from_cd_values_0x0030(size_t cd_nelmts, unsigned int const *cd_values,
     uint64 *zfp_mode, uint64 *zfp_meta, H5T_order_t *swap)
 {
-    static char const *_funcname_ = "get_zfp_info_from_cd_values";
+    static char const *_funcname_ = "get_zfp_info_from_cd_values_0x0030";
     unsigned int cd_values_copy[H5Z_ZFP_CD_NELMTS_MAX];
     int retval = 0;
     bitstream *bstr = 0;
@@ -487,12 +426,7 @@ get_zfp_info_from_cd_values(size_t cd_nelmts, unsigned int const *cd_values,
     if (0 == (zfld = Z zfp_field_alloc()))
         H5Z_ZFP_PUSH_AND_GOTO(H5E_RESOURCE, H5E_NOSPACE, 0, "allocating field failed");
 
-    /* Do a read of *just* magic to detect possible codec version mismatch */
-    if (0 == (Z zfp_read_header(zstr, zfld, ZFP_HEADER_MAGIC)))
-        H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0, "ZFP codec version mismatch");
-    Z zfp_stream_rewind(zstr);
-
-    /* Now, read ZFP *full* header */
+    /* Read ZFP header */
     if (0 == (Z zfp_read_header(zstr, zfld, ZFP_HEADER_FULL)))
     {
         herr_t conv;
@@ -529,6 +463,25 @@ done:
     return retval;
 }
 
+/* Decode cd_values for ZFP info for various versions of this filter */
+static int
+get_zfp_info_from_cd_values(size_t cd_nelmts, unsigned int const *cd_values,
+    uint64 *zfp_mode, uint64 *zfp_meta, H5T_order_t *swap)
+{
+    unsigned int const h5z_zfp_version_no = cd_values[0]&0x0000FFFF;
+    int retval = 0;
+
+    H5Z_zfp_init();
+
+    if (0x0020 <= h5z_zfp_version_no && h5z_zfp_version_no <= 0x0080)
+        return get_zfp_info_from_cd_values_0x0030(cd_nelmts-1, &cd_values[1], zfp_mode, zfp_meta, swap);
+
+    H5Epush(H5E_DEFAULT, __FILE__, "", __LINE__, H5Z_ZFP_ERRCLASS, H5E_PLINE, H5E_BADVALUE,
+        "version mismatch: (file) 0x0%x <-> 0x0%x (code)", h5z_zfp_version_no, H5Z_FILTER_ZFP_VERSION_NO);
+
+    return 0;
+}
+
 static size_t
 H5Z_filter_zfp(unsigned int flags, size_t cd_nelmts,
     const unsigned int cd_values[], size_t nbytes,
@@ -544,8 +497,7 @@ H5Z_filter_zfp(unsigned int flags, size_t cd_nelmts,
     zfp_stream *zstr = 0;
     zfp_field *zfld = 0;
 
-    /* Pass &cd_values[1] here to strip off first entry holding version info */
-    if (0 == get_zfp_info_from_cd_values(cd_nelmts-1, &cd_values[1], &zfp_mode, &zfp_meta, &swap))
+    if (0 == get_zfp_info_from_cd_values(cd_nelmts, cd_values, &zfp_mode, &zfp_meta, &swap))
         H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_CANTGET, 0, "can't get ZFP mode/meta");
 
     if (flags & H5Z_FLAG_REVERSE) /* decompression */
@@ -567,10 +519,8 @@ H5Z_filter_zfp(unsigned int flags, size_t cd_nelmts,
         bsize = Z zfp_field_size(zfld, 0);
         switch (Z zfp_field_type(zfld))
         {
-            case zfp_type_int32:  dsize = sizeof(int32);  break;
-            case zfp_type_int64:  dsize = sizeof(int64);  break;
-            case zfp_type_float:  dsize = sizeof(float);  break;
-            case zfp_type_double: dsize = sizeof(double); break;
+            case zfp_type_int32: case zfp_type_float:  dsize = 4; break;
+            case zfp_type_int64: case zfp_type_double: dsize = 8; break;
             default: H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADTYPE, 0, "invalid datatype");
         }
         bsize *= dsize;
@@ -601,18 +551,18 @@ H5Z_filter_zfp(unsigned int flags, size_t cd_nelmts,
         if (!status)
             H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_CANTFILTER, 0, "decompression failed");
 
-    /* ZFP is an endian-independent format. It will produce correct endian-ness
-           during decompress regardless of endian-ness differences between reader
+	/* ZFP is an endian-independent format. It will produce correct endian-ness
+           during decompress regardless of endian-ness differences between reader 
            and writer. However, the HDF5 library will not be expecting that. So,
            we need to undue the correct endian-ness here. We use HDF5's built-in
            byte-swapping here. Because we know we need only to endian-swap,
            we treat the data as unsigned. */
         if (swap != H5T_ORDER_NONE)
         {
-            hid_t src = dsize == 4 ? H5T_STD_U32BE : H5T_STD_U64BE;
+            hid_t src = dsize == 4 ? H5T_STD_U32BE : H5T_STD_U64BE; 
             hid_t dst = dsize == 4 ? H5T_NATIVE_UINT32 : H5T_NATIVE_UINT64;
             if (swap == H5T_ORDER_BE)
-                src = dsize == 4 ? H5T_STD_U32LE : H5T_STD_U64LE;
+                src = dsize == 4 ? H5T_STD_U32LE : H5T_STD_U64LE; 
             if (H5Tconvert(src, dst, bsize/dsize, newbuf, 0, H5P_DEFAULT) < 0)
                 H5Z_ZFP_PUSH_AND_GOTO(H5E_PLINE, H5E_BADVALUE, 0, "endian-UN-swap failed");
         }
@@ -620,7 +570,7 @@ H5Z_filter_zfp(unsigned int flags, size_t cd_nelmts,
         free(*buf);
         *buf = newbuf;
         newbuf = 0;
-        *buf_size = bsize;
+        *buf_size = bsize; 
         retval = bsize;
     }
     else /* compression */

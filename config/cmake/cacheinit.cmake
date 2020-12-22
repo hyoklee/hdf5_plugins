@@ -37,7 +37,7 @@ set (BSHUF_PACKAGE_NAME "bshuf" CACHE STRING "Name of BSHUF package" FORCE)
 
 ############################# blosc ################################################
 
-set (BLOSC_GIT_URL "https://github.com/Blosc/c-blosc.git" CACHE STRING "Use BLOSC from Github" FORCE)
+set (BLOSC_GIT_URL "https://github.com/hyoklee/c-blosc.git" CACHE STRING "Use BLOSC from Github" FORCE)
 set (BLOSC_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 set (BLOSC_TGZ_NAME "c-blosc.tar.gz" CACHE STRING "Use BLOSC from compressed file" FORCE)
@@ -62,7 +62,7 @@ set (BZ2_PACKAGE_NAME "bz2" CACHE STRING "Name of BZ2 package" FORCE)
 
 ############################# fpzip ################################################
 
-set (FPZIP_GIT_URL "https://https://github.com/LLNL/fpzip" CACHE STRING "Use FPZIP from github repository" FORCE)
+set (FPZIP_GIT_URL "http://https://github.com/hyoklee/fpzip" CACHE STRING "Use FPZIP from github repository" FORCE)
 set (FPZIP_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 set (FPZIP_TGZ_NAME "fpzip.tar.gz" CACHE STRING "Use FPZIP from compressed file" FORCE)
@@ -107,7 +107,7 @@ set (LZF_PACKAGE_NAME "lzf" CACHE STRING "Name of LZF package" FORCE)
 
 ############################# sz ################################################
 
-set (SZF_GIT_URL "https://github.com/disheng222/SZ" CACHE STRING "Use SZ filter from github repository" FORCE)
+set (SZF_GIT_URL "https://github.com/hyoklee/SZ.git" CACHE STRING "Use SZ filter from github repository" FORCE)
 set (SZF_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 set (SZF_TGZ_NAME "szf.tar.gz" CACHE STRING "Use SZ filter from compressed file" FORCE)
@@ -116,7 +116,7 @@ set (SZF_PACKAGE_NAME "szf" CACHE STRING "Name of SZ filter package" FORCE)
 
 ############################# zfp ################################################
 
-set (ZFP_GIT_URL "https://github.com/LLNL/zfp.git" CACHE STRING "Use ZFP from Github" FORCE)
+set (ZFP_GIT_URL "https://github.com/hyoklee/zfp.git" CACHE STRING "Use ZFP from Github" FORCE)
 set (ZFP_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 set (ZFP_TGZ_NAME "zfp.tar.gz" CACHE STRING "Use ZFP from compressed file" FORCE)
