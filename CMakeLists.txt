@@ -93,6 +93,9 @@ endif ()
 # ZFP filter
 FILTER_OPTION (ZFP)
 
+# ZSTD filter
+FILTER_OPTION (ZSTD)
+
 #-----------------------------------------------------------------------------
 # Dashboard and Testing Settings
 #-----------------------------------------------------------------------------
