@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.12)
 project (HDF5ZSTD_EX)
 
 set (dyn_examples
-    h5ex_d_zstandard
+    h5ex_d_zstd
 )
 
 if (USE_SHARED_LIBS)
