@@ -22,6 +22,7 @@ verbose=yes
 nerrors=0
 
 # HDF5 compile commands, assuming they are in your $PATH.
+HDF5_HOME=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-pm2a2ldv5kwvr5pc6fvdu4kuhffrvypi
 H5CC=$HDF5_HOME/bin/h5cc
 LD_LIBRARY_PATH=$HDF5_HOME/lib
 export LD_LIBRARY_PATH
