@@ -48,7 +48,7 @@
 
 /* 3rd party vendors */
 #include "H5PLextern.h" /* HDF5 Plugin Library: H5PLget_plugin_type(), H5PLget_plugin_info() */
-#include <lib/zstd.h> /* Zstandard library header */
+#include "zstd.h" /* Zstandard library header */
 
 /* Tokens and typedefs */
 #define H5Z_FILTER_ZSTANDARD 32015 /* NB: Registered with HDF */
