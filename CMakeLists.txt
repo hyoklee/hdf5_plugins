@@ -96,7 +96,7 @@ FILTER_OPTION (ZFP)
 # ZSTD filter
 FILTER_OPTION (ZSTD)
 
-# BITGRROOM filter
+# BITGROOM filter
 FILTER_OPTION (BITGROOM)
 
 #-----------------------------------------------------------------------------
