@@ -19,7 +19,7 @@ set(H5BITGROOM_INCLUDE_DIRS ${H5BITGROOM_INCLUDE_DIRS}
 # Define H5BITGROOM Library
 #-----------------------------------------------------------------------------
 set (H5BITGROOM_SRCS
-    ${H5BITGROOM_SRC_SOURCE_DIR}/H5Zzbitgroom.c
+    ${H5BITGROOM_SRC_SOURCE_DIR}/H5Zbitgroom.c
 )
 
 add_library (${H5BITGROOM_LIB_TARGET} MODULE ${H5BITGROOM_SRCS})
