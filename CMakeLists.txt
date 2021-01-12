@@ -96,6 +96,9 @@ FILTER_OPTION (ZFP)
 # ZSTD filter
 FILTER_OPTION (ZSTD)
 
+# BITGRROOM filter
+FILTER_OPTION (BITGROOM)
+
 #-----------------------------------------------------------------------------
 # Dashboard and Testing Settings
 #-----------------------------------------------------------------------------
