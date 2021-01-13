@@ -22,7 +22,7 @@ verbose=yes
 nerrors=0
 
 # HDF5 compile commands, assuming they are in your $PATH.
-HDF5_HOME=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-pm2a2ldv5kwvr5pc6fvdu4kuhffrvypi
+HDF5_HOME=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-7xgvi6krkimxu4kc554fbwgxdbkjhplc
 H5CC=$HDF5_HOME/bin/h5cc
 LD_LIBRARY_PATH=$HDF5_HOME/lib
 export LD_LIBRARY_PATH
@@ -59,7 +59,7 @@ ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
 TESTDIR=$builddir
 
 
-$H5CC -shlib $srcdir/h5ex_d_bitgroom.c -o h5ex_d_bitgroom
+$H5CC $srcdir/h5ex_d_bitgroom.c -o h5ex_d_bitgroom
 
 SRC_TESTFILES="$srcdir/testfiles"
 LIST_TEST_FILES="
@@ -252,7 +252,7 @@ EXETEST h5ex_d_bitgroom h5ex_d_bitgroom.tst
 
 DUMPTEST h5ex_d_bitgroom.ddl h5ex_d_bitgroom.h5
 
-REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=307,0,1,9
+REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=32022,3,4,0,0,0
 
 DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH out-ud_convert.h5repack_layout.h5
 
