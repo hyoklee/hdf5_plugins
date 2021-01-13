@@ -252,7 +252,7 @@ EXETEST h5ex_d_bitgroom h5ex_d_bitgroom.tst
 
 DUMPTEST h5ex_d_bitgroom.ddl h5ex_d_bitgroom.h5
 
-REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=32022,3,4,0,0,0
+REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=32022,5,3,4,0,0,0
 
 DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH out-ud_convert.h5repack_layout.h5
 

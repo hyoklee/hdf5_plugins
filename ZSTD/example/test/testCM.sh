@@ -252,7 +252,7 @@ EXETEST h5ex_d_zstd h5ex_d_zstd.tst
 
 DUMPTEST h5ex_d_zstd.ddl h5ex_d_zstd.h5
 
-REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=307,0,1,9
+REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=32015,1,3
 
 DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH out-ud_convert.h5repack_layout.h5
 

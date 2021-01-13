@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define FILE            "h5ex_d_zstandard.h5"
+#define FILE            "h5ex_d_zstd.h5"
 #define DATASET         "DS1"
 #define DIM0            32
 #define DIM1            64
