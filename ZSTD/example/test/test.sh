@@ -25,6 +25,7 @@ nerrors=0
 HDF5_HOME=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-7xgvi6krkimxu4kc554fbwgxdbkjhplc
 H5CC=$HDF5_HOME/bin/h5cc
 LD_LIBRARY_PATH=$HDF5_HOME/lib
+# LD_LIBRARY_PATH=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-7xgvi6krkimxu4kc554fbwgxdbkjhplc/lib:/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/zstd-1.4.5-3boiausohz77fqap2ptmbwpoyy5a4ufg/lib:/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/zlib-1.2.11-pkmj6e72vggig3epxjcwxgzmxncaqnmp/lib:/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/libszip-2.1.1-6qofyity3luvjoyp45jirdjhywwuu7rz/lib
 export LD_LIBRARY_PATH
 
 if ! test -f $H5CC; then
@@ -42,6 +43,8 @@ case $H5CC in
 *)      H5DUMP=h5dump;
         H5REPACK=h5repack;;
 esac
+echo $H5DUMP
+echo $H5REPACK
 
 # Shell commands used in Makefiles
 RM="rm -rf"
@@ -55,7 +58,7 @@ AWK='awk'
 
 # setup plugin path
 ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
-
+# export HDF5_PLUGIN_PATH=
 TESTDIR=$builddir
 
 
@@ -201,11 +204,11 @@ REPACKTEST()
     actual_err="$2.err1"
     shift
     shift
-
+    echo $ENVCMD
     # Run test.
     TESTING H5REPACK $@
     (
-        $ENVCMD $H5REPACK "$@" "out-$infile" "out-$outfile"
+        $ENVCMD $H5REPACK "$@" "$infile" "out-$outfile"
     ) >$actual 2>$actual_err
     RET=$?
     STDOUT_FILTER $actual
@@ -252,7 +255,7 @@ EXETEST h5ex_d_zstd h5ex_d_zstd.tst
 
 DUMPTEST h5ex_d_zstd.ddl h5ex_d_zstd.h5
 
-REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=32015,1,3
+REPACKTEST h5repack_layout.h5 ud_convert.h5repack_layout.h5 -v -f UD=32015,1,3
 
 DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH out-ud_convert.h5repack_layout.h5
 
