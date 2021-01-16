@@ -55,7 +55,6 @@ AWK='awk'
 
 # setup plugin path
 ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
-# export HDF5_PLUGIN_PATH=
 TESTDIR=$builddir
 
 
