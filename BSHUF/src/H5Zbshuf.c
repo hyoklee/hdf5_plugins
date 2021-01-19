@@ -136,7 +136,6 @@ herr_t H5Z_bshuf_set_local(hid_t dcpl, hid_t type, hid_t space) {
     values[1] = BSHUF_VERSION_MINOR;
 
     elem_size = H5Tget_size(type);
-    fprintf(stderr, "BSHUF: Computed elem_size %d\n", elem_size);
     if(elem_size <= 0) {
         PUSH_ERR("bshuf_h5_set_local", H5E_CALLBACK, "Invalid element size.");
         return -1;
