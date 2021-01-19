@@ -204,7 +204,7 @@ REPACKTEST()
     # Run test.
     TESTING H5REPACK $@
     (
-        $ENVCMD $H5REPACK "$@" "out-$infile" "out-$outfile"
+        $ENVCMD $H5REPACK "$@" "$infile" "$outfile"
     ) >$actual 2>$actual_err
     RET=$?
     STDOUT_FILTER $actual
