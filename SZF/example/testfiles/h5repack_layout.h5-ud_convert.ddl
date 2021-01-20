@@ -5,7 +5,7 @@ GROUP "/" {
       DATASPACE  SIMPLE { ( 40, 20 ) / ( 40, 20 ) }
       STORAGE_LAYOUT {
          CHUNKED ( 4, 8 )
-         SIZE 3087 (1.037:1 COMPRESSION)
+         SIZE 3098 (1.033:1 COMPRESSION)
       }
       FILTERS {
          USER_DEFINED_FILTER {
@@ -27,7 +27,7 @@ GROUP "/" {
       DATASPACE  SIMPLE { ( 40, 20 ) / ( 40, 20 ) }
       STORAGE_LAYOUT {
          CHUNKED ( 4, 8 )
-         SIZE 3088 (1.036:1 COMPRESSION)
+         SIZE 3097 (1.033:1 COMPRESSION)
       }
       FILTERS {
          USER_DEFINED_FILTER {
@@ -49,7 +49,7 @@ GROUP "/" {
       DATASPACE  SIMPLE { ( 40, 20 ) / ( 40, 20 ) }
       STORAGE_LAYOUT {
          CHUNKED ( 4, 8 )
-         SIZE 3086 (1.037:1 COMPRESSION)
+         SIZE 3110 (1.029:1 COMPRESSION)
       }
       FILTERS {
          USER_DEFINED_FILTER {
@@ -71,7 +71,7 @@ GROUP "/" {
       DATASPACE  SIMPLE { ( 40, 20 ) / ( 40, 20 ) }
       STORAGE_LAYOUT {
          CHUNKED ( 4, 8 )
-         SIZE 3086 (1.037:1 COMPRESSION)
+         SIZE 3096 (1.034:1 COMPRESSION)
       }
       FILTERS {
          USER_DEFINED_FILTER {
@@ -93,7 +93,7 @@ GROUP "/" {
       DATASPACE  SIMPLE { ( 40, 20 ) / ( 40, H5S_UNLIMITED ) }
       STORAGE_LAYOUT {
          CHUNKED ( 4, 8 )
-         SIZE 3086 (1.037:1 COMPRESSION)
+         SIZE 3105 (1.031:1 COMPRESSION)
       }
       FILTERS {
          USER_DEFINED_FILTER {
@@ -115,7 +115,7 @@ GROUP "/" {
       DATASPACE  SIMPLE { ( 40, 20 ) / ( 40, 20 ) }
       STORAGE_LAYOUT {
          CHUNKED ( 4, 8 )
-         SIZE 3088 (1.036:1 COMPRESSION)
+         SIZE 3105 (1.031:1 COMPRESSION)
       }
       FILTERS {
          USER_DEFINED_FILTER {
@@ -137,7 +137,7 @@ GROUP "/" {
       DATASPACE  SIMPLE { ( 40, 20 ) / ( 40, 20 ) }
       STORAGE_LAYOUT {
          CHUNKED ( 4, 8 )
-         SIZE 3087 (1.037:1 COMPRESSION)
+         SIZE 3105 (1.031:1 COMPRESSION)
       }
       FILTERS {
          USER_DEFINED_FILTER {

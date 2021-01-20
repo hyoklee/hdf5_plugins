@@ -67,6 +67,7 @@ $SRC_TESTFILES/h5ex_d_sz.ddl
 $SRC_TESTFILES/h5ex_d_sz.tst
 $SRC_TESTFILES/h5repack_layout.h5-ud_convert.ddl
 $SRC_TESTFILES/ud_convert.h5repack_layout.h5.tst
+$SRC_TESTFILES/sz.config
 "
 
 #
