@@ -27,31 +27,37 @@ rm h5ex* *.h5 *.out* *.err *.dll
 ./test.sh
 ./testCM.sh
 
-# cd $pl/JPEG/example/test/
-#rm h5ex_d_jpeg* *.h5 *.out* *.err *.dll 
+cd $pl/JPEG/example/test/
+rm h5ex* *.h5 *.out* *.err *.dll 
+# ./test.sh
+./testCM.sh
+
+cd $pl/LZ4/example/test/
+rm h5ex* *.h5 *.out* *.err *.dll 
+# ./test.sh
+./testCM.sh
+
+cd $pl/LZF/example/test/
+rm h5ex* *.h5 *.out* *.err *.dll 
+# ./test.sh
+./testCM.sh
+
+cd $pl/MAFISC/example/test/
+rm h5ex* *.h5 *.out* *.err *.dll 
 # ./test.sh
 # ./testCM.sh
 
-# cd $pl/LZ4/example/test/
+cd $pl/SZF/example/test/
+rm h5ex* *.h5 *.out* *.err *.dll 
 # ./test.sh
 # ./testCM.sh
 
-# cd $pl/LZF/example/test/
+cd $pl/ZFP/example/test/
+rm h5ex* *.h5 *.out* *.err *.dll 
 # ./test.sh
-# ./testCM.sh
+./testCM.sh
 
-# cd $pl/MAFISC/example/test/
+cd $pl/ZSTD/example/test/
+rm h5ex* *.h5 *.out* *.err *.dll 
 # ./test.sh
-# ./testCM.sh
-
-# cd $pl/SZF/example/test/
-# ./test.sh
-# ./testCM.sh
-
-# cd $pl/ZFP/example/test/
-# ./test.sh
-# ./testCM.sh
-
-# cd $pl/ZSTD/example/test/
-# ./test.sh
-# ./testCM.sh
+./testCM.sh

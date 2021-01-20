@@ -204,7 +204,7 @@ REPACKTEST()
     # Run test.
     TESTING H5REPACK $@
     (
-        $ENVCMD $H5REPACK "$@" "out-$infile" "out-$outfile"
+        $ENVCMD $H5REPACK "$@" "$infile" "$outfile"
     ) >$actual 2>$actual_err
     RET=$?
     STDOUT_FILTER $actual
@@ -251,9 +251,9 @@ EXETEST h5ex_d_zfp h5ex_d_zfp.tst
 
 DUMPTEST h5ex_d_zfp.ddl h5ex_d_zfp.h5
 
-REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=32013,1,0,0 -l CHUNK=4x8
+REPACKTEST h5repack_layout.h5 ud_convert.h5repack_layout.h5 -v -f UD=32013,1,0,0 -l CHUNK=4x8
 
-DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH out-ud_convert.h5repack_layout.h5
+DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH ud_convert.h5repack_layout.h5
 
 #rm -f ud_convert.h5repack_layout.h5
 

@@ -10,8 +10,8 @@ GROUP "/" {
       FILTERS {
          USER_DEFINED_FILTER {
             FILTER_ID 32013
-            COMMENT H5Z-ZFP-1.0.1 (ZFP-0.5.5) github.com/LLNL/H5Z-ZFP
-            PARAMS { XXXX }
+            COMMENT H5Z-ZFP-0.8.0 (ZFP-0.5.5) github.com/LLNL/H5Z-ZFP
+            PARAMS { 5570688 91252346 805306486 -1048576 -527958016 493487 }
          }
       }
       FILLVALUE {

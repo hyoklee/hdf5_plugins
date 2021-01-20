@@ -1,4 +1,4 @@
-HDF5 "out-ud_convert.h5repack_layout.h5" {
+HDF5 "ud_convert.h5repack_layout.h5" {
 GROUP "/" {
    DATASET "dset1" {
       DATATYPE  H5T_STD_I32LE
