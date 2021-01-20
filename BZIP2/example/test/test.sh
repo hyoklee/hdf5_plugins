@@ -58,7 +58,7 @@ ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
 TESTDIR=$builddir
 
 
-$H5CC -shlib $srcdir/h5ex_d_bzip2.c -o h5ex_d_bzip2
+$H5CC $srcdir/h5ex_d_bzip2.c -o h5ex_d_bzip2
 
 SRC_TESTFILES="$srcdir/testfiles"
 LIST_TEST_FILES="

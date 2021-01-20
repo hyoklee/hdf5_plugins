@@ -251,9 +251,9 @@ EXETEST h5ex_d_bshuf h5ex_d_bshuf.tst
 
 DUMPTEST h5ex_d_bshuf.ddl h5ex_d_bshuf.h5
 
-REPACKTEST h5repack_layout.h5 ud_convert.h5repack_layout.h5 -v -f UD=32008,0,3,0,0,0 -l CHUNK=4x8
+REPACKTEST h5repack_layout.h5 ud_convert.h5repack_layout.h5 -v -f UD=32008,1,3,0,0,0 -l CHUNK=4x8
 
-DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH out-ud_convert.h5repack_layout.h5
+DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH ud_convert.h5repack_layout.h5
 
 #rm -f ud_convert.h5repack_layout.h5
 
