@@ -58,7 +58,7 @@ ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
 TESTDIR=$builddir
 
 
-$H5CC -shlib $srcdir/h5ex_d_jpeg.c -o h5ex_d_jpeg
+$H5CC $srcdir/h5ex_d_jpeg.c -o h5ex_d_jpeg
 
 SRC_TESTFILES="$srcdir/testfiles"
 LIST_TEST_FILES="
@@ -251,9 +251,9 @@ EXETEST h5ex_d_jpeg h5ex_d_jpeg.tst
 
 DUMPTEST h5ex_d_jpeg.ddl h5ex_d_jpeg.h5
 
-REPACKTEST h5repack_layout.h5 out-ud_convert.h5repack_layout.h5 -v -f UD=307,0,1,9
+REPACKTEST h5repack_layout.h5 ud_convert.h5repack_layout.h5 -v -f UD=32019,1,4,100,40,20,0
 
-DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH out-ud_convert.h5repack_layout.h5
+DUMPTEST h5repack_layout.h5-ud_convert.ddl -pH ud_convert.h5repack_layout.h5
 
 #rm -f ud_convert.h5repack_layout.h5
 
