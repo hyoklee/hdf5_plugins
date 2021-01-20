@@ -45,7 +45,7 @@ rm h5ex* *.h5 *.out* *.err *.dll
 cd $pl/MAFISC/example/test/
 rm h5ex* *.h5 *.out* *.err *.dll 
 # ./test.sh
-# ./testCM.sh
+./testCM.sh
 
 cd $pl/SZF/example/test/
 rm h5ex* *.h5 *.out* *.err *.dll 
