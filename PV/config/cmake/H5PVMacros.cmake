@@ -1,0 +1,74 @@
+#-------------------------------------------------------------------------------
+macro (EXTERNAL_PV_LIBRARY compress_type libtype)
+  if (${libtype} MATCHES "SHARED")
+    set (BUILD_EXT_SHARED_LIBS "ON")
+  else ()
+    set (BUILD_EXT_SHARED_LIBS "OFF")
+  endif ()
+  if (${compress_type} MATCHES "GIT")
+    EXTERNALPROJECT_ADD (PV
+        GIT_REPOSITORY ${PV_URL}
+        GIT_TAG ${PV_BRANCH}
+        INSTALL_COMMAND ""
+        CMAKE_ARGS
+            -DBUILD_SHARED_LIBS:BOOL=${BUILD_EXT_SHARED_LIBS}
+            -DPV_PACKAGE_EXT:STRING=${PV_PACKAGE_EXT}
+            -DPV_EXTERNALLY_CONFIGURED:BOOL=OFF
+            -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+            -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
+            -DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+            -DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+            -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+            -DCMAKE_PDB_OUTPUT_DIRECTORY:PATH=${CMAKE_PDB_OUTPUT_DIRECTORY}
+            -DCMAKE_ANSI_CFLAGS:STRING=${CMAKE_ANSI_CFLAGS}
+            -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
+            -DCMAKE_TOOLCHAIN_FILE:STRING=${CMAKE_TOOLCHAIN_FILE}
+    )
+  elseif (${compress_type} MATCHES "TGZ")
+    EXTERNALPROJECT_ADD (PV
+        URL ${PV_URL}
+        URL_MD5 ""
+        INSTALL_COMMAND ""
+        CMAKE_ARGS
+            -DBUILD_SHARED_LIBS:BOOL=${BUILD_EXT_SHARED_LIBS}
+            -DPV_PACKAGE_EXT:STRING=${PV_PACKAGE_EXT}
+            -DPV_EXTERNALLY_CONFIGURED:BOOL=OFF
+            -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+            -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
+            -DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+            -DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+            -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+            -DCMAKE_PDB_OUTPUT_DIRECTORY:PATH=${CMAKE_PDB_OUTPUT_DIRECTORY}
+            -DCMAKE_ANSI_CFLAGS:STRING=${CMAKE_ANSI_CFLAGS}
+            -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
+            -DCMAKE_TOOLCHAIN_FILE:STRING=${CMAKE_TOOLCHAIN_FILE}
+    )
+  endif ()
+  externalproject_get_property (PV BINARY_DIR SOURCE_DIR)
+
+  # Create imported target PV
+  add_library (pv ${libtype} IMPORTED)
+  HDF_IMPORT_SET_LIB_OPTIONS (pv "pv" ${libtype} "")
+  add_dependencies (pv PV)
+
+#  include (${BINARY_DIR}/PV-targets.cmake)
+  set (PV_LIBRARY "pv")
+
+  set (PV_INCLUDE_DIR_GEN "${BINARY_DIR}")
+  set (PV_INCLUDE_DIR "${SOURCE_DIR}/src")
+  set (PV_FOUND 1)
+  set (PV_LIBRARIES ${PV_LIBRARY})
+  set (PV_INCLUDE_DIRS ${PV_INCLUDE_DIR_GEN} ${PV_INCLUDE_DIR})
+endmacro ()
+
+#-------------------------------------------------------------------------------
+macro (PACKAGE_PV_LIBRARY compress_type)
+  add_custom_target (PV-GenHeader-Copy ALL
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PV_INCLUDE_DIR}/pv.h ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+      COMMENT "Copying ${PV_INCLUDE_DIR}/pv.h to ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/"
+  )
+  set (EXTERNAL_HEADER_LIST ${EXTERNAL_HEADER_LIST} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pv.h)
+  if (${compress_type} MATCHES "GIT" OR ${compress_type} MATCHES "TGZ")
+    add_dependencies (PV-GenHeader-Copy pv)
+  endif ()
+endmacro ()
