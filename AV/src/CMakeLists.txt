@@ -19,7 +19,7 @@ set(H5AV_INCLUDE_DIRS ${H5AV_INCLUDE_DIRS}
 # Define H5AV Library
 #-----------------------------------------------------------------------------
 set (H5AV_SRCS
-    ${H5AV_SRC_SOURCE_DIR}/H5VLpassthru_ext.c
+    ${H5AV_SRC_SOURCE_DIR}/h5_vol_external_async_native.c
 )
 
 add_library (${H5AV_LIB_TARGET} MODULE ${H5AV_SRCS})
