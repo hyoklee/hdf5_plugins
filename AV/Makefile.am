@@ -1,5 +1,9 @@
 # Copyright by The HDF Group. All rights reserved.
 
+# This builds the main Pv directory
+
+# Charlie Zender 9/12/20
+
 # This directory stores libtool macros, put there by aclocal
 ACLOCAL_AMFLAGS = -I m4
 

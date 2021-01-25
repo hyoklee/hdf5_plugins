@@ -99,8 +99,11 @@ FILTER_OPTION (ZSTD)
 # BITGROOM filter
 FILTER_OPTION (BITGROOM)
 
-# BITGROOM filter
+# 
 FILTER_OPTION (PV)
+
+# 
+FILTER_OPTION (AV)
 
 #-----------------------------------------------------------------------------
 # Dashboard and Testing Settings
