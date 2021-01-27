@@ -99,11 +99,14 @@ FILTER_OPTION (ZSTD)
 # BITGROOM filter
 FILTER_OPTION (BITGROOM)
 
-# 
+# Pass-through VOL
 FILTER_OPTION (PV)
 
-# 
+# Async VOL
 FILTER_OPTION (AV)
+
+# Cache VOL
+FILTER_OPTION (CV)
 
 #-----------------------------------------------------------------------------
 # Dashboard and Testing Settings
