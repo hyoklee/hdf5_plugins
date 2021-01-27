@@ -99,7 +99,7 @@ FILTER_OPTION (ZSTD)
 # BITGROOM filter
 FILTER_OPTION (BITGROOM)
 
-# Pass-through VOL
+# Pass-through external VOL
 FILTER_OPTION (PV)
 
 # Async VOL
