@@ -19,7 +19,9 @@ set(H5CV_INCLUDE_DIRS ${H5CV_INCLUDE_DIRS}
 # Define H5CV Library
 #-----------------------------------------------------------------------------
 set (H5CV_SRCS
-    ${H5CV_SRC_SOURCE_DIR}/H5VLpassthru_ext.c
+    ${H5CV_SRC_SOURCE_DIR}/H5VLcache_ext.c
+    ${H5CV_SRC_SOURCE_DIR}/cache_util.c
+    ${H5CV_SRC_SOURCE_DIR}/H5LS.c
 )
 
 add_library (${H5CV_LIB_TARGET} MODULE ${H5CV_SRCS})
