@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     hid_t      async_fapl;
     
     int ifile, nfile = 3, sleeptime = 1;
-
+    printf("Starting\n");
     fpath = ".";
     if (argc >= 2) 
         fpath = argv[1];

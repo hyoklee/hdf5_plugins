@@ -22,7 +22,7 @@ verbose=yes
 nerrors=0
 asyncdir=../../src
 # HDF5 compile commands, assuming they are in your $PATH.
-HDF5_HOME=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-gh44xd62ywqm4xu623nlbfiycqbnqvay
+HDF5_HOME=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-xg2irzpynsktc47efepaw52yav6bivcv
 H5CC=$HDF5_HOME/bin/h5cc
 MPICC=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/openmpi-4.0.5-dnklcx7cvd26rznbqosge4uqhje6xpfd/bin/mpicc
 LD_LIBRARY_PATH=$HDF5_HOME/lib
@@ -60,8 +60,9 @@ ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
 TESTDIR=$builddir
 
 # $H5CC $srcdir/async_test_serial.c -o async_test_serial
-$MPICC -I$asyncdir $srcdir/async_test_serial.c -o async_test_serial  -lhdf5 -lh5av
-# $H5CC -I$asyncdir $srcdir/async_test_serial.c -o async_test_serial 
+# $MPICC -shared -fPIC  -I$asyncdir $srcdir/async_test_serial.c -o async_test_serial  -lhdf5
+# $H5CC -shared -fPIC -g -I$asyncdir $srcdir/async_test_serial.c -o async_test_serial
+$H5CC -g -I$asyncdir $srcdir/async_test_multifile.c -o async_test_multifile -L/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-xg2irzpynsktc47efepaw52yav6bivcv/lib/plugin -lh5av -L/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/argobots-1.0-rfg4glhtpek7uqxq25sqkg6twarwjw76/lib -labt
 
 SRC_TESTFILES="$srcdir/testfiles"
 LIST_TEST_FILES="
