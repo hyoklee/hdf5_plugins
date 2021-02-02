@@ -13,19 +13,21 @@
 # http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have
 # access to either file, you may request a copy from help@hdfgroup.org.
 
-# This file is for use of h5cc created with the CMake process
-# Set SPACK_HOME.
+# This file is to test Cache VOL created with the CMake process via Spack.
+
+# Set SPACK_HOME. Modify this.
 SPACK_HOME=/scr/hyoklee/src/spack-hyoklee
+
+# Please do not change the rest.
 . $SPACK_HOME/share/spack/setup-env.sh
 spack load hdf5-cmake
 p="`$SPACK_HOME/bin/spack find --paths hdf5-cmake | tail  -1 | cut -d' ' -f 3-`"
-# HDF5_HOME is expected to be set
+
 srcdir=..
 builddir=.
 verbose=yes
 nerrors=0
 libdir=../../src
-# HDF5 compile commands, assuming they are in your $PATH.
 HDF5_HOME=$p
 rm $HDF5_HOME/lib/pkgconfig/hdf5.pc
 cp $HDF5_HOME/lib/pkgconfig/hdf5-*.pc  $HDF5_HOME/lib/pkgconfig/hdf5.pc
@@ -51,17 +53,17 @@ case $H5CC in
         H5REPACK=h5repack-shared;;
 esac
 
-# Shell commands used in Makefiles
+# Set command options.
 RM="rm -rf"
 DIFF="diff -c"
 CMP="cmp -s"
 GREP='grep'
-CP="cp -p"  # Use -p to preserve mode,ownership,timestamps
+CP="cp -p"
 DIRNAME='dirname'
 LS='ls'
 AWK='awk'
 
-# setup plugin path
+# Set up plugin path.
 ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
 
 TESTDIR=$builddir
