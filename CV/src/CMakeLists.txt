@@ -21,6 +21,7 @@ set(H5CV_INCLUDE_DIRS ${H5CV_INCLUDE_DIRS}
 set (H5CV_SRCS
     ${H5CV_SRC_SOURCE_DIR}/H5VLcache_ext.c
     ${H5CV_SRC_SOURCE_DIR}/cache_utils.c
+    ${H5CV_SRC_SOURCE_DIR}/cache_new_h5api.c
     ${H5CV_SRC_SOURCE_DIR}/debug.c
     ${H5CV_SRC_SOURCE_DIR}/H5LS.c
     ${H5CV_SRC_SOURCE_DIR}/H5LS_SSD.c
