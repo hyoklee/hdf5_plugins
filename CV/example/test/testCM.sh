@@ -67,9 +67,9 @@ AWK='awk'
 ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
 
 TESTDIR=$builddir
-$H5CC -g -std=c++11  -I$libdir  $srcdir/profiling.cpp $srcdir/prepare_dataset.cpp -o prepare_dataset -L/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-cpsqfeiu5zoacqkoppzwupc2he7orfxy/lib/plugin -lh5cv -lm 
+$H5CC -g -std=c++11  -I$libdir  $srcdir/profiling.cpp $srcdir/prepare_dataset.cpp -o prepare_dataset -L$HDF5_HOME/lib/plugin -lh5cv -lm 
 ./prepare_dataset
-$H5CC -g -std=c++11  -I$libdir  $srcdir/profiling.cpp $srcdir/test_write_cache.cpp -o test_write_cache -L/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-cpsqfeiu5zoacqkoppzwupc2he7orfxy/lib/plugin -lh5cv -lm 
+$H5CC -g -std=c++11  -I$libdir  $srcdir/profiling.cpp $srcdir/test_write_cache.cpp -o test_write_cache -L$HDF5_HOME/lib/plugin -lh5cv -lm 
 ./test_write_cache
-$H5CC -g -std=c++11  -I$libdir  $srcdir/profiling.cpp $srcdir/test_read_cache.cpp -o test_read_cache -L/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-cpsqfeiu5zoacqkoppzwupc2he7orfxy/lib/plugin  -lh5cv -lm 
+$H5CC -g -std=c++11  -I$libdir  $srcdir/profiling.cpp $srcdir/test_read_cache.cpp -o test_read_cache -L$HDF5_HOME/lib/plugin  -lh5cv -lm 
 ./test_read_cache
