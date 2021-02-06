@@ -31,8 +31,11 @@ nerrors=0
 libdir=../../src
 H5CC=$HDF5_HOME/bin/h5cc
 LD_LIBRARY_PATH=$HDF5_HOME/lib:$HDF5_HOME/lib/plugin
+HDF5_PLUGIN_PATH=$HDF5_HOME/lib:$HDF5_HOME/lib/plugin
+HDF5_VOL_CONNECTOR="pass_through_ext under_vol=0;under_info={};"
 export LD_LIBRARY_PATH
-
+export HDF5_PLUGIN_PATH
+export HDF5_VOL_CONNECTOR
 if ! test -f $H5CC; then
     echo "Set paths for H5CC and LD_LIBRARY_PATH in test.sh"
     echo "Set environment variable HDF5_HOME to the hdf5 install dir"
@@ -62,5 +65,7 @@ AWK='awk'
 # Set up plugin path.
 ENVCMD="env HDF5_PLUGIN_PATH=$LD_LIBRARY_PATH/plugin"
 TESTDIR=$builddir
-$H5CC -g  -I$libdir -DENABLE_EXT_PASSTHRU_LOGGING  $srcdir/new_h5api_ex.c $srcdir/new_h5api.c  -o new_h5api_ex -L$HDF5_HOME/lib/plugin -lh5pv 
+$H5CC -DENABLE_EXT_PASSTHRU_LOGGING -g -O0 -fPIC -Wall -I$libdir -DENABLE_EXT_PASSTHRU_LOGGING  $srcdir/new_h5api_ex.c $srcdir/new_h5api.c  -o new_h5api_ex -L$HDF5_HOME/lib/plugin -lh5pv 
 ./new_h5api_ex
+$H5CC -DENABLE_EXT_PASSTHRU_LOGGING -g -O0 -fPIC -Wall -I$libdir -DENABLE_EXT_PASSTHRU_LOGGING  $srcdir/async_new_h5api_ex.c $srcdir/new_h5api.c  -o async_new_h5api_ex -L$HDF5_HOME/lib/plugin -lh5pv 
+./async_new_h5api_ex
