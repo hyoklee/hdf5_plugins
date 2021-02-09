@@ -13,15 +13,20 @@
 # http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have
 # access to either file, you may request a copy from help@hdfgroup.org.
 
-# This file is for use of h5cc created with the CMake process
-# HDF5_HOME is expected to be set
-
+# This file is to test BLOSC filter created with the CMake process via Spack.
 srcdir=..
 builddir=.
 verbose=yes
 nerrors=0
 
 # HDF5 compile commands, assuming they are in your $PATH.
+# Set SPACK_HOME. Modify this.
+SPACK_HOME=/scr/hyoklee/src/spack-hyoklee
+
+# Please do not change the rest.
+. $SPACK_HOME/share/spack/setup-env.sh
+spack load hdf5-cmake
+HDF5_HOME="`$SPACK_HOME/bin/spack find --paths hdf5-cmake | tail  -1 | cut -d' ' -f 3-`"
 H5CC=$HDF5_HOME/bin/h5cc
 LD_LIBRARY_PATH=$HDF5_HOME/lib
 export LD_LIBRARY_PATH
