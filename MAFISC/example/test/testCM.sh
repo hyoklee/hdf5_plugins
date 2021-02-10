@@ -13,7 +13,7 @@
 # http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have
 # access to either file, you may request a copy from help@hdfgroup.org.
 
-# This file is to test LZF filter created with the CMake process via Spack.
+# This file is to test MAFISC filter created with the CMake process via Spack.
 # Set SPACK_HOME. Modify this.
 SPACK_HOME=/scr/hyoklee/src/spack-hyoklee
 

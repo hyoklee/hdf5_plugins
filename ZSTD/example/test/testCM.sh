@@ -13,22 +13,25 @@
 # http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have
 # access to either file, you may request a copy from help@hdfgroup.org.
 
-# This file is for use of h5cc created with the CMake process
-# HDF5_HOME is expected to be set
+# This file is to test ZSTD filter created with the CMake process via Spack.
+# Set SPACK_HOME. Modify this.
+SPACK_HOME=/scr/hyoklee/src/spack-hyoklee
+# Please do not change the rest.
+. $SPACK_HOME/share/spack/setup-env.sh
+spack load hdf5-cmake
+HDF5_HOME="`$SPACK_HOME/bin/spack find --paths hdf5-cmake | tail  -1 | cut -d' ' -f 3-`"
 
 srcdir=..
 builddir=.
 verbose=yes
 nerrors=0
 
-# HDF5 compile commands, assuming they are in your $PATH.
-HDF5_HOME=/scr/hyoklee/src/spack-hyoklee/opt/spack/linux-centos7-haswell/gcc-4.8.5/hdf5-cmake-develop-7xgvi6krkimxu4kc554fbwgxdbkjhplc
 H5CC=$HDF5_HOME/bin/h5cc
 LD_LIBRARY_PATH=$HDF5_HOME/lib
 export LD_LIBRARY_PATH
 
 if ! test -f $H5CC; then
-    echo "Set paths for H5CC and LD_LIBRARY_PATH in test.sh"
+    echo "Set paths for H5CC and LD_LIBRARY_PATH in testCM.sh"
     echo "Set environment variable HDF5_HOME to the hdf5 install dir"
     echo "h5cc was not found at $H5CC"
     exit $EXIT_FAILURE
