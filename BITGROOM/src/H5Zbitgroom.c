@@ -52,11 +52,12 @@
 /* Standard header files */
 #ifdef HAVE_FEATURES_H
 /* Needed to define __USE_BSD that recent GCC compilers use in math.h to define M_LN2... */
-# include <features.h> /* __USE_BSD */
+#include <features.h> /* __USE_BSD */
 #endif
+#define HAVE_MATH_H
 #ifdef HAVE_MATH_H
 /* Needed for M_LN10, M_LN2 in ccr_bgr() */
-# include <math.h> /* sin cos cos sin 3.14159 */
+#include <math.h> /* sin cos cos sin 3.14159 */
 #endif
 
 /* 3rd party vendors */
@@ -79,7 +80,7 @@
 # define NC_FLOAT 5
 #endif /* !NC_FLOAT */
 #ifndef NC_DOUBLE
-# define NC_DOUBLE 6
+  #define NC_DOUBLE 6
 #endif /* !NC_DOUBLE */
 
 /* Minimum number of explicit significand bits to preserve when zeroing/bit-masking floating point values
