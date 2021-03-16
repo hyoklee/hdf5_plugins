@@ -14,6 +14,8 @@
 #ifdef HAVE_SYS_STAT_H
 # include <sys/stat.h>
 #endif
+
+#define STDC_HEADERS
 #ifdef STDC_HEADERS
 # include <stdlib.h>
 # include <stddef.h>
