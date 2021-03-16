@@ -355,7 +355,7 @@ endif ()
 CHECK_FUNCTION_EXISTS (vprintf               HAVE_VPRINTF)
 CHECK_FUNCTION_EXISTS (_doprnt               HAVE_DOPRNT)
 CHECK_FUNCTION_EXISTS (memset                HAVE_MEMSET)
-
+CHECK_FUNCTION_EXISTS (ceil                  HAVE_MATH)
 if (MINGW OR NOT WINDOWS)
   foreach (test
       HAVE_ATTRIBUTE
