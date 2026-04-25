@@ -1,0 +1,7 @@
+find_library(BZ2_LIBRARY NAMES bz2 HINTS /usr/local/lib)
+find_path(BZ2_INCLUDE_DIR bzlib.h HINTS /usr/local/include)
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(BZ2 DEFAULT_MSG BZ2_LIBRARY BZ2_INCLUDE_DIR)
+set(BZ2_LIBRARIES ${BZ2_LIBRARY})
+set(BZ2_INCLUDE_DIRS ${BZ2_INCLUDE_DIR})
+mark_as_advanced(BZ2_LIBRARY BZ2_INCLUDE_DIR)

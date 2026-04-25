@@ -1,0 +1,7 @@
+find_library(BLOSC_LIBRARY NAMES blosc HINTS /usr/local/lib)
+find_path(BLOSC_INCLUDE_DIR blosc.h HINTS /usr/local/include)
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(BLOSC DEFAULT_MSG BLOSC_LIBRARY BLOSC_INCLUDE_DIR)
+set(BLOSC_LIBRARIES ${BLOSC_LIBRARY})
+set(BLOSC_INCLUDE_DIRS ${BLOSC_INCLUDE_DIR})
+mark_as_advanced(BLOSC_LIBRARY BLOSC_INCLUDE_DIR)
